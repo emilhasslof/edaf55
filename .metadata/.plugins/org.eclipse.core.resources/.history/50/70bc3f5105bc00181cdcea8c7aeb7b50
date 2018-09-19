@@ -1,0 +1,24 @@
+package todo;
+
+public class ClockState {
+	
+	int clockTime;
+	int alarmTime;
+	
+	public ClockState() {
+		
+	}
+	
+	public void setClockTime(int clockTime) {
+		this.clockTime = clockTime;
+	}
+	public void setAlarmTime(int alarmTime) {
+		this.alarmTime = alarmTime;
+	}
+	public int getClockTime() {
+		return clockTime;
+	}
+	public int getAlarmTime() {
+		return alarmTime;
+	}
+}

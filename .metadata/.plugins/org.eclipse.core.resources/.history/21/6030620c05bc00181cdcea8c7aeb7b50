@@ -1,0 +1,36 @@
+package todo;
+
+import done.ClockOutput;
+
+public class TimeCounterThread extends Thread {
+	
+	long incrementedTime;
+	long now;
+	long dt;
+	int currentTime;		//Used to keep track of the current time as seen by our alarm clock
+	ClockOutput o;
+	
+	public TimeCounterThread(ClockOutput o) {
+		this.o = o;
+	}
+	
+	public void run(){
+		
+		incrementedTime = System.currentTimeMillis();
+
+		while(true) {
+			incrementedTime += 1000;
+			now = System.currentTimeMillis();
+			dt = incrementedTime - now;
+			try {
+				Thread.sleep(dt);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			currentTime += 1;
+			o.showTime(currentTime);
+			
+		}
+		
+	}
+}

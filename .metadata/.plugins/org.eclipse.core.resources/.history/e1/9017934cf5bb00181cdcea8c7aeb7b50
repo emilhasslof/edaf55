@@ -1,0 +1,14 @@
+package todo;
+
+import done.ClockGUI;
+
+public class SickAlarmClock {
+
+	public static void main(String[] args) {
+		
+		ClockGUI sim = new ClockGUI();
+		sim.start();
+
+	}
+
+}

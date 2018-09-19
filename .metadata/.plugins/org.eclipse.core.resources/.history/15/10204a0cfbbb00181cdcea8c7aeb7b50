@@ -1,0 +1,31 @@
+package todo;
+
+public class TimeCounterThread extends Thread {
+	
+	long rightTime;
+	long now;
+	long dt;
+	
+	public TimeCounterThread() {
+		
+	}
+	
+	public void run(){
+		
+		rightTime = System.currentTimeMillis();
+
+		while(true) {
+			rightTime += 1000;
+			now = System.currentTimeMillis();
+			dt = rightTime - now;
+			try {
+				Thread.sleep(dt);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+			
+			
+		}
+		
+	}
+}
