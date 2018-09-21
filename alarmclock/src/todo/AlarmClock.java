@@ -9,7 +9,7 @@ public class AlarmClock extends Thread {
 	private static ClockOutput	output;
 	private static Semaphore	sem;
 	
-	private ClockState state;
+	private TimeState state;
 	private TimeCounterThread timeCounter;
 	
 	private int lastChoice;
@@ -20,8 +20,8 @@ public class AlarmClock extends Thread {
 		output = o;
 		sem = input.getSemaphoreInstance();
 		lastChoice = 0;
-		state = new ClockState();
-		timeCounter = new TimeCounterThread(output, state);
+		state = new TimeState();
+		timeCounter = new TimeCounterThread(input, output, state);
 	}
 
 	// The AlarmClock thread is started by the simulator. No
@@ -43,6 +43,7 @@ public class AlarmClock extends Thread {
 					state.setClockTime(input.getValue());
 				}
 			}
+			timeCounter.killAlarm();
 		}
 	}
 }

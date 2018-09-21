@@ -1,20 +1,29 @@
 package todo;
 
+import done.ClockInput;
 import done.ClockOutput;
+import se.lth.cs.realtime.semaphore.MutexSem;
+import se.lth.cs.realtime.semaphore.Semaphore;
 
 public class TimeCounterThread extends Thread {
 
 	long incrementedTime;
 	long now;
 	long dt;
-	ClockOutput o;
-	ClockState state;
 	int alarmTicker;
+	
+	ClockInput i;
+	ClockOutput o;
+	TimeState state;
+	
+	private Semaphore mutex;
 
-	public TimeCounterThread(ClockOutput o, ClockState state) {
+
+	public TimeCounterThread(ClockInput i, ClockOutput o, TimeState state) {
+		this.i = i;
 		this.o = o;
 		this.state = state;
-		alarmTicker = 0;
+		mutex = new MutexSem();
 	}
 
 	public void run() {
@@ -32,15 +41,25 @@ public class TimeCounterThread extends Thread {
 			}
 			state.increment();
 			o.showTime(state.getClockTime());
-			if(state.alarmTriggered()) {
+			if(state.isAlarmTime() && i.getAlarmFlag()) {
+				mutex.take();
 				alarmTicker = 20;
+				mutex.give();
 			}
 			if(alarmTicker > 0) {
 				o.doAlarm();
+				mutex.take();
 				alarmTicker--;
+				mutex.give();
 			}
 		}
 
+	}
+	
+	public void killAlarm() {
+		mutex.take();
+		alarmTicker = 0;
+		mutex.give();
 	}
 	
 }
