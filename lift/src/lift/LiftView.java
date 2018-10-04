@@ -18,6 +18,7 @@ public class LiftView {
 	private static int NO_OF_FLOORS = 7;
 	private static int MAX_LOAD = 4;
 	private FloorEntry[] floorIn;
+	private int speedDelay = 10;
 
 	public LiftView() {
 		view = new JFrame("LiftView");
@@ -100,7 +101,9 @@ public class LiftView {
 			Thread.sleep(1000);
 		} catch(InterruptedException e) { }
 		lv.moveLift(0,1);
+		lv.drawLevel(3, 1);
 		lv.drawLift(1,2);
+		
 	}
 
 	private class FixedSizePanel extends JPanel {
@@ -224,14 +227,14 @@ public class LiftView {
 				for(int y=start;y<stop;y+=INCREMENT) {
 					setLocation(2,y);
 					try {
-						Thread.sleep(50);
+						Thread.sleep(speedDelay);
 					} catch(InterruptedException e) { }
 				}
 			} else {
 				for(int y=start;y>stop;y-=INCREMENT) {
 					setLocation(2,y);
 					try {
-						Thread.sleep(50);
+						Thread.sleep(speedDelay);
 					} catch(InterruptedException e) { }
 				}
 			}
